@@ -123,7 +123,7 @@ The AI assistant currently uses an allowlist of approved analytics tables and re
 ## Power BI Dashboard
 
 The Power BI reports cover:
-
+- Executive Overview
 - Product Performance
 - Customer Analytics
 - Revenue & Financial Analytics

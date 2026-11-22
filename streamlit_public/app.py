@@ -68,24 +68,74 @@ with tab1:
 
         st.bar_chart(segments)
 
+
 with tab2:
     st.subheader("Product Performance")
 
     st.metric("Total Gross Product Profit", "$29.60M")
     st.metric("Overall Product Margin", "50.40%")
 
-    st.write("""
-    Product performance was evaluated using product revenue, product cost,
-    gross profit and profit margin.
+    profit_by_category = pd.DataFrame({
+        "Category": [
+            "electronics", "apparel", "outdoors",
+            "office", "beauty", "home"
+        ],
+        "Gross Profit": [
+            5081935.97, 5032407.24, 4974717.92,
+            4949368.58, 4891901.17, 4666169.83
+        ]
+    })
 
-    The electronics category recorded the highest total gross profit
-    among the product categories.
-    """)
+    revenue_by_category = pd.DataFrame({
+        "Category": [
+            "apparel", "outdoors", "electronics",
+            "beauty", "office", "home"
+        ],
+        "Revenue": [
+            10070386.43, 9930336.66, 9903329.52,
+            9871192.14, 9668292.90, 9276323.49
+        ]
+    })
 
-    st.info(
-        "The complete product-level analysis is available in the "
-        "downloadable Power BI report."
-    )
+    top_products = pd.DataFrame({
+        "Product": [
+            "Apparel Item 0733",
+            "Electronics Item 0536",
+            "Home Item 0261",
+            "Beauty Item 0257",
+            "Home Item 0477",
+            "Electronics Item 0068",
+            "Electronics Item 1010",
+            "Home Item 0039",
+            "Office Item 0816",
+            "Office Item 0402"
+        ],
+        "Gross Profit": [
+            84320.84, 83436.47, 83064.96, 80191.14,
+            79255.75, 77490.43, 75548.83, 75541.15,
+            75343.96, 75222.76
+        ]
+    })
+
+    left, right = st.columns(2)
+
+    with left:
+        st.subheader("Top 10 Products by Gross Profit")
+        st.bar_chart(
+            top_products.set_index("Product"),
+            horizontal=True
+        )
+
+        st.subheader("Revenue by Product Category")
+        st.bar_chart(
+            revenue_by_category.set_index("Category")
+        )
+
+    with right:
+        st.subheader("Gross Profit by Product Category")
+        st.bar_chart(
+            profit_by_category.set_index("Category")
+        )
 
 with tab3:
     st.subheader("Customer Analytics")

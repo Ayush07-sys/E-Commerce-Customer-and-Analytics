@@ -1,484 +1,484 @@
-\# E-Commerce Customer Behavior \& Revenue Analytics
+# &#x20;**E-Commerce Customer Behavior \& Revenue Analytics**
 
+##### 
 
+##### An end-to-end data analytics and machine learning project that transforms e-commerce transaction data into actionable business insights using Python, PostgreSQL, dbt, Power BI, Machine Learning, and a locally hosted AI business analyst.
 
-An end-to-end data analytics and machine learning project that transforms e-commerce transaction data into actionable business insights using Python, PostgreSQL, dbt, Power BI, Machine Learning, and a locally hosted AI business analyst.
+##### 
 
+## &#x20;**Project Overview**
 
+##### 
 
-\## Project Overview
+##### This project analyzes customer purchasing behavior, product performance, revenue trends, and customer retention. It also incorporates machine learning models and a natural-language AI analyst that generates and executes validated SQL queries against a read-only PostgreSQL account.
 
+##### 
 
+## &#x20;**Technology Stack**
 
-This project analyzes customer purchasing behavior, product performance, revenue trends, and customer retention. It also incorporates machine learning models and a natural-language AI analyst that generates and executes validated SQL queries against a read-only PostgreSQL account.
+##### 
 
+##### | Area | Technologies |
 
+##### |---|---|
 
-\## Technology Stack
+##### | Programming | Python, SQL |
 
+##### | Data Analysis | Pandas, NumPy, Matplotlib |
 
+##### | Database | PostgreSQL |
 
-| Area | Technologies |
+##### | Data Transformation | dbt |
 
-|---|---|
+##### | Business Intelligence | Power BI |
 
-| Programming | Python, SQL |
+##### | Machine Learning | Scikit-learn |
 
-| Data Analysis | Pandas, NumPy, Matplotlib |
+##### | AI Integration | Ollama, Qwen 3 4B |
 
-| Database | PostgreSQL |
+##### | AI Application | Streamlit |
 
-| Data Transformation | dbt |
+##### | SQL Validation | SQLGlot |
 
-| Business Intelligence | Power BI |
+##### | Version Control | Git, GitHub |
 
-| Machine Learning | Scikit-learn |
+##### 
 
-| AI Integration | Ollama, Qwen 3 4B |
+## &#x20;**Project Architecture**
 
-| AI Application | Streamlit |
+##### 
 
-| SQL Validation | SQLGlot |
+##### ```text
 
-| Version Control | Git, GitHub |
+##### Raw E-Commerce Data
 
+##### &#x20;       |
 
+##### &#x20;       v
 
-\## Project Architecture
+##### Python \& Pandas
 
+##### (Data Cleaning and EDA)
 
+##### &#x20;       |
 
-```text
+##### &#x20;       v
 
-Raw E-Commerce Data
+##### PostgreSQL
 
-&#x20;       |
+##### (Data Storage)
 
-&#x20;       v
+##### &#x20;       |
 
-Python \& Pandas
+##### &#x20;       v
 
-(Data Cleaning and EDA)
+##### dbt
 
-&#x20;       |
+##### (Staging, Intermediate Models, Marts)
 
-&#x20;       v
+##### &#x20;       |
 
-PostgreSQL
+##### &#x20;       +----------------------+
 
-(Data Storage)
+##### &#x20;       |                      |
 
-&#x20;       |
+##### &#x20;       v                      v
 
-&#x20;       v
+##### &#x20;   Power BI              Machine Learning
 
-dbt
+##### &#x20; (Dashboards)           (Segmentation,
 
-(Staging, Intermediate Models, Marts)
+##### &#x20;                         Prediction,
 
-&#x20;       |
+##### &#x20;                         Forecasting)
 
-&#x20;       +----------------------+
+##### &#x20;                              |
 
-&#x20;       |                      |
+##### &#x20;                              v
 
-&#x20;       v                      v
+##### &#x20;                       AI Business Analyst
 
-&#x20;   Power BI              Machine Learning
+##### &#x20;                       (Ollama + Qwen 3)
 
-&#x20; (Dashboards)           (Segmentation,
+##### &#x20;                              |
 
-&#x20;                         Prediction,
+##### &#x20;                              v
 
-&#x20;                         Forecasting)
+##### &#x20;                       SQL Validation
 
-&#x20;                              |
+##### &#x20;                              |
 
-&#x20;                              v
+##### &#x20;                              v
 
-&#x20;                       AI Business Analyst
+##### &#x20;                       PostgreSQL
 
-&#x20;                       (Ollama + Qwen 3)
+##### &#x20;                       (Read-only access)
 
-&#x20;                              |
+##### &#x20;                              |
 
-&#x20;                              v
+##### &#x20;                              v
 
-&#x20;                       SQL Validation
+##### &#x20;                       Business Insights
 
-&#x20;                              |
+##### ```
 
-&#x20;                              v
+##### 
 
-&#x20;                       PostgreSQL
+## &#x20;**Business Analysis**
 
-&#x20;                       (Read-only access)
+##### 
 
-&#x20;                              |
+### The project explores:
 
-&#x20;                              v
+##### 
 
-&#x20;                       Business Insights
+##### \- Customer purchasing behavior and repeat purchases.
 
-```
+##### \- Customer segmentation using RFM analysis and K-Means clustering.
 
+##### \- Product and category performance.
 
+##### \- Monthly revenue and profitability trends.
 
-\## Business Analysis
+##### \- Payment success and refund patterns.
 
+##### \- Customer retention and cohort analysis.
 
+##### 
 
-The project explores:
+## &#x20;**Key Business Findings**
 
+##### 
 
+##### | Metric | Result |
 
-\- Customer purchasing behavior and repeat purchases.
+##### |---|---:|
 
-\- Customer segmentation using RFM analysis and K-Means clustering.
+##### | Total Customers | 20,000 |
 
-\- Product and category performance.
+##### | Total Orders | 100,000 |
 
-\- Monthly revenue and profitability trends.
+##### | Purchasing Customers | 19,850 |
 
-\- Payment success and refund patterns.
+##### | Repeat Customers | 19,017 |
 
-\- Customer retention and cohort analysis.
+##### | Repeat Purchase Rate | 95.8% |
 
+##### | Gross Order Revenue | $63.46M |
 
+##### | Net Collections After Refunds | $60.07M |
 
-\## Key Business Findings
+##### | Gross Product Profit | $29.60M |
 
+##### | Gross Product Margin | 50.40% |
 
+##### 
 
-| Metric | Result |
+##### \***Note**: Gross order revenue, product revenue, gross product profit, and net collections are different financial measures.\*
 
-|---|---:|
+##### 
 
-| Total Customers | 20,000 |
+## &#x20;**Machine Learning**
 
-| Total Orders | 100,000 |
+##### 
 
-| Purchasing Customers | 19,850 |
+##### Three machine learning tasks were explored:
 
-| Repeat Customers | 19,017 |
+##### 
 
-| Repeat Purchase Rate | 95.8% |
+##### 1\. \*\*Customer Segmentation:\*\* K-Means clustering to identify High Value Frequent, Regular, and At Risk customer groups.
 
-| Gross Order Revenue | $63.46M |
+##### 2\. \*\*Repeat Purchase Prediction:\*\* Classification models to explore which customer characteristics relate to repeat purchasing.
 
-| Net Collections After Refunds | $60.07M |
+##### 3\. \*\*Revenue Forecasting:\*\* Time-series analysis and forecasting of monthly revenue.
 
-| Gross Product Profit | $29.60M |
+##### 
 
-| Gross Product Margin | 50.40% |
+##### The repeat-purchase classification experiments showed limited predictive signal, making this an important model evaluation finding rather than a result to overstate.
 
+##### 
 
+## &#x20;**AI Business Analyst**
 
-\*Note: Gross order revenue, product revenue, gross product profit, and net collections are different financial measures.\*
+##### 
 
+##### The project includes a local AI-powered analytics assistant built using:
 
+##### 
 
-\## Machine Learning
+##### \- Ollama
 
+##### \- Qwen 3 4B
 
+##### \- PostgreSQL
 
-Three machine learning tasks were explored:
+##### \- SQLGlot
 
+##### \- Streamlit
 
+##### 
 
-1\. \*\*Customer Segmentation:\*\* K-Means clustering to identify High Value Frequent, Regular, and At Risk customer groups.
+##### Users can ask business questions in natural language. The application:
 
-2\. \*\*Repeat Purchase Prediction:\*\* Classification models to explore which customer characteristics relate to repeat purchasing.
+##### 
 
-3\. \*\*Revenue Forecasting:\*\* Time-series analysis and forecasting of monthly revenue.
+##### 1\. Converts the question into SQL.
 
+##### 2\. Validates the generated SQL against safety rules.
 
+##### 3\. Executes permitted queries using a read-only database account.
 
-The repeat-purchase classification experiments showed limited predictive signal, making this an important model evaluation finding rather than a result to overstate.
+##### 4\. Returns the query results.
 
+##### 5\. Uses the local LLM to explain the findings.
 
+##### 
 
-\## AI Business Analyst
+##### The AI assistant currently uses an allowlist of approved analytics tables and restricted SQL operations.
 
+##### 
 
+## &#x20;**Power BI Dashboard**
 
-The project includes a local AI-powered analytics assistant built using:
+##### 
 
+##### The Power BI reports cover:
 
+##### 
 
-\- Ollama
+##### \- Product Performance
 
-\- Qwen 3 4B
+##### \- Customer Analytics
 
-\- PostgreSQL
+##### \- Revenue \& Financial Analytics
 
-\- SQLGlot
+##### 
 
-\- Streamlit
+##### Dashboard screenshots will be added here.
 
+##### 
 
+## &#x20;**Project Structure**
 
-Users can ask business questions in natural language. The application:
+##### 
 
+##### ```text
 
+##### ecommerce\_customer\_analytics/
 
-1\. Converts the question into SQL.
+##### |
 
-2\. Validates the generated SQL against safety rules.
+##### ├── agents/
 
-3\. Executes permitted queries using a read-only database account.
+##### │   ├── ai\_business\_analyst.py
 
-4\. Returns the query results.
+##### │   ├── streamlit\_app.py
 
-5\. Uses the local LLM to explain the findings.
+##### │   ├── generate\_sql.py
 
+##### │   ├── validate\_sql.py
 
+##### │   └── ...
 
-The AI assistant currently uses an allowlist of approved analytics tables and restricted SQL operations.
+##### |
 
+##### ├── ecommerce\_analytics\_dbt/
 
+##### │   ├── models/
 
-\## Power BI Dashboard
+##### │   │   ├── staging/
 
+##### │   │   ├── intermediate/
 
+##### │   │   └── marts/
 
-The Power BI reports cover:
+##### │   └── dbt\_project.yml
 
+##### |
 
+##### ├── notebooks/
 
-\- Product Performance
+##### │   ├── 01\_data\_exploration.ipynb
 
-\- Customer Analytics
+##### │   └── 01\_ml\_data\_preparation.ipynb
 
-\- Revenue \& Financial Analytics
+##### |
 
+##### ├── sql/
 
+##### │   └── 01\_database\_setup.sql
 
-Dashboard screenshots will be added here.
+##### |
 
+##### ├── requirements.txt
 
+##### └── README.md
 
-\## Project Structure
+##### ```
 
+##### 
 
+## &#x20;**Running the Project Locally**
 
-```text
+##### 
 
-ecommerce\_customer\_analytics/
+#### &#x20;**1. Clone the repository**
 
-|
+##### 
 
-├── agents/
+##### ```bash
 
-│   ├── ai\_business\_analyst.py
+##### git clone https://github.com/Ayush07-sys/E-Commerce-Customer-and-Analytics.git
 
-│   ├── streamlit\_app.py
+##### cd E-Commerce-Customer-and-Analytics
 
-│   ├── generate\_sql.py
+##### ```
 
-│   ├── validate\_sql.py
+##### 
 
-│   └── ...
+#### &#x20;**2. Create and activate a virtual environment**
 
-|
+##### 
 
-├── ecommerce\_analytics\_dbt/
+##### ```bash
 
-│   ├── models/
+##### python -m venv .venv
 
-│   │   ├── staging/
+##### ```
 
-│   │   ├── intermediate/
+##### 
 
-│   │   └── marts/
+##### Windows:
 
-│   └── dbt\_project.yml
+##### 
 
-|
+##### ```cmd
 
-├── notebooks/
+##### .venv\\Scripts\\activate
 
-│   ├── 01\_data\_exploration.ipynb
+##### ```
 
-│   └── 01\_ml\_data\_preparation.ipynb
+##### 
 
-|
+#### &#x20;**3. Install dependencies**
 
-├── sql/
+##### 
 
-│   └── 01\_database\_setup.sql
+##### ```bash
 
-|
+##### pip install -r requirements.txt
 
-├── requirements.txt
+##### ```
 
-└── README.md
+##### 
 
-```
+#### &#x20;**4. Configure PostgreSQL and dbt**
 
+##### 
 
+##### \- Install and start PostgreSQL.
 
-\## Running the Project Locally
+##### \- Obtain and load the source dataset into the `staging` schema.
 
+##### \- Configure your dbt profile locally.
 
+##### \- Run dbt models and tests.
 
-\### 1. Clone the repository
+##### 
 
+##### ```bash
 
+##### cd ecommerce\_analytics\_dbt
 
-```bash
+##### dbt run
 
-git clone https://github.com/Ayush07-sys/E-Commerce-Customer-and-Analytics.git
+##### dbt test
 
-cd E-Commerce-Customer-and-Analytics
+##### ```
 
-```
+##### 
 
+#### &#x20;**5. Run the local AI application**
 
+##### 
 
-\### 2. Create and activate a virtual environment
+##### Install Ollama and download the model:
 
+##### 
 
+##### ```bash
 
-```bash
+##### ollama pull qwen3:4b
 
-python -m venv .venv
+##### ```
 
-```
+##### 
 
+##### Configure the PostgreSQL connection and the read-only `ai\_analyst` user locally.
 
+##### 
 
-Windows:
+##### From the project root, launch:
 
+##### 
 
+##### ```bash
 
-```cmd
+##### streamlit run agents/streamlit\_app.py
 
-.venv\\Scripts\\activate
+##### ```
 
-```
+##### 
 
+## &#x20;**Data \& Security**
 
+##### 
 
-\### 3. Install dependencies
+##### \- Raw datasets and processed data are not included in this repository.
 
+##### \- Database credentials and API keys should be configured locally and must never be committed.
 
+##### \- The AI analyst uses a restricted read-only PostgreSQL account.
 
-```bash
+##### \- The local AI application requires PostgreSQL and Ollama to be running.
 
-pip install -r requirements.txt
+##### 
 
-```
+## &#x20;**Future Improvements**
 
+##### 
 
+##### \- Public Streamlit demo deployment.
 
-\### 4. Configure PostgreSQL and dbt
+##### \- Additional dashboard screenshots and documentation.
 
+##### \- Improved predictive model performance.
 
+##### \- Automated data pipelines.
 
-\- Install and start PostgreSQL.
+##### \- Advanced AI analytics and agentic workflows.
 
-\- Obtain and load the source dataset into the `staging` schema.
+##### 
 
-\- Configure your dbt profile locally.
+## &#x20;**Author**
 
-\- Run dbt models and tests.
+##### 
 
+##### \*\*Ayush Kumar\*\*
 
+##### 
 
-```bash
+##### B.Tech — Artificial Intelligence \& Data Science
 
-cd ecommerce\_analytics\_dbt
+##### 
 
-dbt run
+##### \[GitHub Profile](https://github.com/Ayush07-sys)
 
-dbt test
+##### 
 
-```
+##### \---
 
+##### 
 
-
-\### 5. Run the local AI application
-
-
-
-Install Ollama and download the model:
-
-
-
-```bash
-
-ollama pull qwen3:4b
-
-```
-
-
-
-Configure the PostgreSQL connection and the read-only `ai\_analyst` user locally.
-
-
-
-From the project root, launch:
-
-
-
-```bash
-
-streamlit run agents/streamlit\_app.py
-
-```
-
-
-
-\## Data \& Security
-
-
-
-\- Raw datasets and processed data are not included in this repository.
-
-\- Database credentials and API keys should be configured locally and must never be committed.
-
-\- The AI analyst uses a restricted read-only PostgreSQL account.
-
-\- The local AI application requires PostgreSQL and Ollama to be running.
-
-
-
-\## Future Improvements
-
-
-
-\- Public Streamlit demo deployment.
-
-\- Additional dashboard screenshots and documentation.
-
-\- Improved predictive model performance.
-
-\- Automated data pipelines.
-
-\- Advanced AI analytics and agentic workflows.
-
-
-
-\## Author
-
-
-
-\*\*Ayush Kumar\*\*
-
-
-
-B.Tech — Artificial Intelligence \& Data Science
-
-
-
-\[GitHub Profile](https://github.com/Ayush07-sys)
-
-
-
-\---
-
-
-
-\*This project was developed as an end-to-end portfolio project to demonstrate practical skills in data analytics, data engineering, business intelligence, machine learning, and AI integration.\*
+##### \*This project was developed as an end-to-end portfolio project to demonstrate practical skills in data analytics, data engineering, business intelligence, machine learning, and AI integration.\*
 

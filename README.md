@@ -44,85 +44,83 @@
 
 ##### 
 
-## &#x20;**Project Architecture**
+## &#x20;**## Project Architecture**
 
-##### 
+## 
 
 ##### ```text
 
-##### Raw E-Commerce Data
+##### &#x20;                Raw E-Commerce Data
 
-##### &#x20;       |
+##### &#x20;                         |
 
-##### &#x20;       v
+##### &#x20;                         v
 
-##### Python \& Pandas
+##### &#x20;                  Python \& Pandas
 
-##### (Data Cleaning and EDA)
+##### &#x20;                (Data Cleaning and EDA)
 
-##### &#x20;       |
+##### &#x20;                         |
 
-##### &#x20;       v
+##### &#x20;                         v
 
-##### PostgreSQL
+##### &#x20;                    PostgreSQL
 
-##### (Data Storage)
+##### &#x20;                   (Data Storage)
 
-##### &#x20;       |
+##### &#x20;                         |
 
-##### &#x20;       v
+##### &#x20;                         v
 
-##### dbt
+##### &#x20;                        dbt
 
-##### (Staging, Intermediate Models, Marts)
+##### &#x20;            (Staging, Intermediate, Marts)
 
-##### &#x20;       |
+##### &#x20;                         |
 
-##### &#x20;       +----------------------+
+##### &#x20;             +-----------+-----------+
 
-##### &#x20;       |                      |
+##### &#x20;             |                       |
 
-##### &#x20;       v                      v
+##### &#x20;             v                       v
 
-##### &#x20;   Power BI              Machine Learning
+##### &#x20;          Power BI              Machine Learning
 
-##### &#x20; (Dashboards)           (Segmentation,
+##### &#x20;         (Dashboards)          (Segmentation,
 
-##### &#x20;                         Prediction,
+##### &#x20;                               Prediction,
 
-##### &#x20;                         Forecasting)
+##### &#x20;                               Forecasting)
 
-##### &#x20;                              |
+##### &#x20;                                     |
 
-##### &#x20;                              v
+##### &#x20;                                     v
 
-##### &#x20;                       AI Business Analyst
+##### &#x20;                             AI Business Analyst
 
-##### &#x20;                       (Ollama + Qwen 3)
+##### &#x20;                               (Ollama + Qwen 3)
 
-##### &#x20;                              |
+##### &#x20;                                     |
 
-##### &#x20;                              v
+##### &#x20;                                     v
 
-##### &#x20;                       SQL Validation
+##### &#x20;                               SQL Validation
 
-##### &#x20;                              |
+##### &#x20;                                     |
 
-##### &#x20;                              v
+##### &#x20;                                     v
 
-##### &#x20;                       PostgreSQL
+##### &#x20;                                 PostgreSQL
 
-##### &#x20;                       (Read-only access)
+##### &#x20;                              (Read-only Access)
 
-##### &#x20;                              |
+##### &#x20;                                     |
 
-##### &#x20;                              v
+##### &#x20;                                     v
 
-##### &#x20;                       Business Insights
+##### &#x20;                              Business Insights
 
 ##### ```
-
-##### 
 
 ## &#x20;**Business Analysis**
 

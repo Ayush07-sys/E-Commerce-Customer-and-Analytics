@@ -1,0 +1,29 @@
+version: 2
+
+models:
+  - name: int_order_payments
+    description: Payment and refund summary for each order
+
+    columns:
+      - name: order_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: int_order_items_enriched
+    description: Enriched order item data with product profitability
+
+    columns:
+      - name: order_item_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: int_customer_orders
+    description: Customer-level purchase behavior and spending metrics
+
+    columns:
+      - name: customer_id
+        data_tests:
+          - unique
+          - not_null

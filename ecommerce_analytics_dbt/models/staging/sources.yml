@@ -1,0 +1,50 @@
+
+version: 2
+
+sources:
+  - name: ecommerce
+    schema: staging
+    description: Raw e-commerce data loaded into PostgreSQL
+
+    tables:
+      - name: orders
+        columns:
+          - name: order_id
+            data_tests:
+              - unique
+              - not_null
+
+      - name: customers
+        columns:
+          - name: customer_id
+            data_tests:
+              - unique
+              - not_null
+
+      - name: products
+        columns:
+          - name: product_id
+            data_tests:
+              - unique
+              - not_null
+
+      - name: order_items
+        columns:
+          - name: order_item_id
+            data_tests:
+              - unique
+              - not_null
+
+      - name: payments
+        columns:
+          - name: payment_id
+            data_tests:
+              - unique
+              - not_null
+
+      - name: refunds
+        columns:
+          - name: refund_id
+            data_tests:
+              - unique
+              - not_null

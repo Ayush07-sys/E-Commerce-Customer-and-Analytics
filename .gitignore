@@ -1,0 +1,30 @@
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# Data files
+data/raw/
+data/processed/
+
+# dbt generated files
+target/
+dbt_packages/
+logs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Power BI files
+*.pbix
+
+# OS files
+.DS_Store
+Thumbs.db

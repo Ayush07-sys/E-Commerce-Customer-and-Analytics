@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: dim_customers
+    description: Customer dimension with profile and purchase metrics
+
+    columns:
+      - name: customer_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: fct_product_performance
+    description: Product-level sales and profitability metrics
+
+    columns:
+      - name: product_id
+        data_tests:
+          - unique
+          - not_null
+
+  - name: mart_monthly_performance
+    description: Monthly order revenue and product profitability metrics
+
+    columns:
+      - name: order_month
+        data_tests:
+          - unique
+          - not_null
+
+  - name: mart_customer_segment_performance
+    description: Customer and revenue performance by segment
+
+    columns:
+      - name: customer_segment
+        data_tests:
+          - unique
+          - not_null

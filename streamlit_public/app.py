@@ -72,9 +72,6 @@ with tab1:
 with tab2:
     st.subheader("Product Performance")
 
-    st.metric("Total Gross Product Profit", "$29.60M")
-    st.metric("Overall Product Margin", "50.40%")
-
     profit_by_category = pd.DataFrame({
         "Category": [
             "electronics", "apparel", "outdoors",

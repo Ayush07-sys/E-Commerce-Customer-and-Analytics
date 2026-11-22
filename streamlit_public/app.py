@@ -267,42 +267,32 @@ with tab4:
     available_months = sorted(
         financial_df["Month"].dt.to_period("M").unique()
     )
-
     month_labels = [str(month) for month in available_months]
 
     with filter_col1:
         start_month = st.selectbox(
-            "Start Month",
-            month_labels,
-            index=0
+            "Start Month", month_labels, index=0
         )
-
-    with filter_col2:
         end_month = st.selectbox(
             "End Month",
             month_labels,
             index=len(month_labels) - 1
         )
 
-    with filter_col3:
+    with filter_col2:
         categories = sorted(financial_df["category"].dropna().unique())
-
         category = st.selectbox(
-            "Select Product Category",
+            "Product Category",
             ["All Categories"] + [c.title() for c in categories]
         )
 
-    margin_filter = st.selectbox(
-        "Select Product Profit Margin",
-        [
-            "All Margins",
-            "Below 40%",
-            "40%-50%",
-            "Above 50%"
-        ]
-    )
+    with filter_col3:
+        margin_filter = st.selectbox(
+            "Product Profit Margin",
+            ["All Margins", "Below 40%", "40%-50%", "Above 50%"]
+        )
 
-    # Apply month filter
+    # Apply month range
     start_period = pd.Period(start_month, freq="M")
     end_period = pd.Period(end_month, freq="M")
 
@@ -311,7 +301,6 @@ with tab4:
         filtered_data = financial_df.iloc[0:0].copy()
     else:
         month_periods = financial_df["Month"].dt.to_period("M")
-
         filtered_data = financial_df[
             (month_periods >= start_period)
             & (month_periods <= end_period)
@@ -328,13 +317,11 @@ with tab4:
         filtered_data = filtered_data[
             filtered_data["profit_margin"] < 40
         ]
-
     elif margin_filter == "40%-50%":
         filtered_data = filtered_data[
             (filtered_data["profit_margin"] >= 40)
             & (filtered_data["profit_margin"] <= 50)
         ]
-
     elif margin_filter == "Above 50%":
         filtered_data = filtered_data[
             filtered_data["profit_margin"] > 50
@@ -344,9 +331,8 @@ with tab4:
 
     if filtered_data.empty:
         st.warning("No data available for the selected filters.")
-
     else:
-        # Dynamic KPI calculations
+        # Dynamic KPIs
         total_revenue = filtered_data["product_revenue"].sum()
         total_cost = filtered_data["product_cost"].sum()
         total_profit = filtered_data["gross_profit"].sum()
@@ -356,18 +342,29 @@ with tab4:
             if total_revenue > 0 else 0
         )
 
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
 
-        col1.metric("Total Product Revenue", f"${total_revenue / 1_000_000:.2f}M")
-        col2.metric("Total Gross Profit", f"${total_profit / 1_000_000:.2f}M")
-        col3.metric("Total Product Cost", f"${total_cost / 1_000_000:.2f}M")
-
-        st.metric("Product Profit Margin", f"{total_margin:.2f}%")
+        col1.metric(
+            "Total Product Revenue",
+            f"${total_revenue / 1_000_000:.2f}M"
+        )
+        col2.metric(
+            "Total Gross Profit",
+            f"${total_profit / 1_000_000:.2f}M"
+        )
+        col3.metric(
+            "Total Product Cost",
+            f"${total_cost / 1_000_000:.2f}M"
+        )
+        col4.metric(
+            "Product Profit Margin",
+            f"{total_margin:.2f}%"
+        )
 
         st.caption(
-            "Profit margin filtering uses each product's overall margin "
-            "across the complete dataset. KPIs and charts reflect the "
-            "selected month range, category and margin filters."
+            "Margin filtering uses each product's overall margin "
+            "across the complete dataset. KPIs and charts reflect "
+            "the selected month range, category and margin filters."
         )
 
         st.divider()

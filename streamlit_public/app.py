@@ -2,6 +2,7 @@
 
 import streamlit as st
 import pandas as pd
+from pathlib import Path
 
 st.set_page_config(
     page_title="E-Commerce Customer Analytics",
@@ -34,8 +35,8 @@ with tab1:
     # Executive Overview KPIs
     col1, col2, col3, col4 = st.columns(4)
 
-    col1.metric("Total Customers", "20,000")
-    col2.metric("Total Orders", "~97,000")
+    col1.metric("Total Customers", "20K")
+    col2.metric("Total Orders", "97K")
     col3.metric("Total Order Revenue", "$63.46M")
     col4.metric("Gross Gross Profit", "$29.60M")
 
@@ -245,110 +246,234 @@ with tab3:
 
 
 
+
 with tab4:
     st.subheader("Revenue & Financial Analytics")
 
-    # Financial KPI Cards
-    col1, col2, col3 = st.columns(3)
+    # Load original project datasets
+    data_path = Path(__file__).resolve().parent.parent / "data" / "raw"
 
-    col1.metric("Total Product Revenue", "$58.72M")
-    col2.metric("Total Gross Profit", "$29.60M")
-    col3.metric("Total Product Cost", "$29.12M")
+    orders = pd.read_csv(
+        data_path / "orders.csv",
+        parse_dates=["ordered_at"]
+    )
 
-    st.divider()
+    order_items = pd.read_csv(data_path / "order_items.csv")
+    products = pd.read_csv(data_path / "products.csv")
 
-    # Slicers
+    # Convert dates to consistent timezone-naive timestamps
+    orders["ordered_at"] = (
+        pd.to_datetime(orders["ordered_at"], utc=True)
+        .dt.tz_convert(None)
+    )
+
+    # Join the three datasets
+    financial_df = (
+        order_items
+        .merge(
+            orders[["order_id", "ordered_at", "order_status"]],
+            on="order_id",
+            how="inner"
+        )
+        .merge(
+            products[["product_id", "product_name", "category", "unit_cost"]],
+            on="product_id",
+            how="inner"
+        )
+    )
+
+    # Exclude cancelled orders, matching the dbt model
+    financial_df = financial_df[
+        financial_df["order_status"] != "cancelled"
+    ].copy()
+
+    # Calculate financial metrics
+    financial_df["product_revenue"] = financial_df["line_total"]
+    financial_df["product_cost"] = (
+        financial_df["quantity"] * financial_df["unit_cost"]
+    )
+    financial_df["gross_profit"] = (
+        financial_df["product_revenue"] - financial_df["product_cost"]
+    )
+
+    # Calculate overall product-level margins
+    product_margins = (
+        financial_df.groupby("product_id")
+        .agg(
+            revenue=("product_revenue", "sum"),
+            profit=("gross_profit", "sum")
+        )
+    )
+
+    product_margins["margin"] = (
+        product_margins["profit"]
+        / product_margins["revenue"].replace(0, float("nan"))
+        * 100
+    )
+
+    # Financial Filters
     st.subheader("Financial Filters")
 
     filter_col1, filter_col2, filter_col3 = st.columns(3)
 
+    min_date = financial_df["ordered_at"].min().date()
+    max_date = financial_df["ordered_at"].max().date()
+
     with filter_col1:
-        date_range = st.selectbox(
+        selected_dates = st.date_input(
             "Select Date Range",
-            ["All Dates", "2023", "2024", "2025", "2026"]
+            value=(min_date, max_date),
+            min_value=min_date,
+            max_value=max_date,
+            format="DD/MM/YYYY"
         )
 
     with filter_col2:
+        categories = sorted(financial_df["category"].dropna().unique())
+
         category = st.selectbox(
             "Select Product Category",
-            ["All Categories", "Apparel", "Electronics",
-             "Home", "Outdoors", "Beauty", "Office"]
+            ["All Categories"] + [
+                c.title() for c in categories
+            ]
         )
 
     with filter_col3:
         profit_margin = st.selectbox(
             "Select Profit Margin",
-            ["All Margins", "Below 40%", "40%–50%", "Above 50%"]
+            [
+                "All Margins",
+                "Below 40%",
+                "40%-50%",
+                "Above 50%"
+            ]
         )
+
+    # Validate selected date range
+    if len(selected_dates) == 2:
+        start_date, end_date = selected_dates
+    else:
+        start_date = selected_dates[0]
+        end_date = selected_dates[0]
+
+    # Apply date filter
+    filtered_data = financial_df[
+        (financial_df["ordered_at"].dt.date >= start_date)
+        & (financial_df["ordered_at"].dt.date <= end_date)
+    ].copy()
+
+    # Apply category filter
+    if category != "All Categories":
+        filtered_data = filtered_data[
+            filtered_data["category"] == category.lower()
+        ]
+
+    # Apply product-level profit margin filter
+    if profit_margin == "Below 40%":
+        selected_products = product_margins[
+            product_margins["margin"] < 40
+        ].index
+
+    elif profit_margin == "40%-50%":
+        selected_products = product_margins[
+            (product_margins["margin"] >= 40)
+            & (product_margins["margin"] <= 50)
+        ].index
+
+    elif profit_margin == "Above 50%":
+        selected_products = product_margins[
+            product_margins["margin"] > 50
+        ].index
+
+    else:
+        selected_products = product_margins.index
+
+    filtered_data = filtered_data[
+        filtered_data["product_id"].isin(selected_products)
+    ]
 
     st.divider()
 
-    # Monthly financial data
-    financial_data = pd.DataFrame({
-        "Month": pd.date_range("2023-01-01", periods=37, freq="MS"),
-        "Product Revenue": [
-            1580970, 1507263, 1763861, 1637267, 1629212, 1546490,
-            1654853, 1576703, 1603537, 1684014, 1648800, 1635659,
-            1633909, 1602322, 1684000, 1565503, 1638922, 1625063,
-            1663118, 1729419, 1608163, 1626239, 1613861, 1610760,
-            1637040, 1545536, 1698054, 1601269, 1676508, 1625512,
-            1655322, 1677411, 1595195, 1644337, 1629038, 1653122,
-            11607.36
-        ],
-        "Gross Profit": [
-            799385.9, 760276.1, 893128.7, 828640.3, 823051.3,
-            777038.2, 831376.7, 793286.2, 806702.8, 849523.6,
-            830123.2, 825388.7, 822253.3, 811887.5, 847352.6,
-            789520.9, 825952.9, 818412.9, 834843.6, 873333.2,
-            812344.5, 819419.3, 817382.3, 817208, 823122.1,
-            773652.8, 857489.4, 804604.2, 847555.5, 820633.7,
-            829434.4, 842105.5, 802709.4, 831322.3, 819792,
-            830559.4, 5687.43
-        ],
-        "Product Cost": [
-            781584, 746987.1, 870731.9, 808626.9, 806161.2,
-            769452.3, 823476.4, 783417.1, 796834.6, 834490.6,
-            818676.9, 810270.7, 811655.4, 790434, 836647.2,
-            775982.5, 812969.1, 806650.2, 828274.1, 856086.1,
-            795818.2, 806820.1, 796478.7, 793552.3, 813918,
-            771883.3, 840564.7, 796665.2, 828952.1, 804878.2,
-            825887.9, 835305.1, 792485.5, 813014.8, 809245.9,
-            822562.2, 5919.93
-        ]
-    })
+    # Dynamic KPI calculations
+    total_revenue = filtered_data["product_revenue"].sum()
+    total_cost = filtered_data["product_cost"].sum()
+    total_profit = filtered_data["gross_profit"].sum()
 
-    # Apply date filter
-    filtered_data = financial_data.copy()
+    total_margin = (
+        (total_profit / total_revenue * 100)
+        if total_revenue > 0 else 0
+    )
 
-    if date_range != "All Dates":
-        filtered_data = filtered_data[
-            filtered_data["Month"].dt.year.astype(str) == date_range
-        ]
+    col1, col2, col3 = st.columns(3)
 
-    # Chart 1: Monthly Product Revenue vs Gross Profit
-    st.subheader("Monthly Product Revenue vs Gross Profit")
+    col1.metric(
+        "Total Product Revenue",
+        f"${total_revenue:,.2f}"
+    )
 
-    chart1 = filtered_data.set_index("Month")[
-        ["Product Revenue", "Gross Profit"]
-    ]
+    col2.metric(
+        "Total Gross Profit",
+        f"${total_profit:,.2f}"
+    )
 
-    st.line_chart(chart1)
+    col3.metric(
+        "Total Product Cost",
+        f"${total_cost:,.2f}"
+    )
 
-    # Chart 2: Monthly Product Cost Trend
-    st.subheader("Monthly Product Cost Trend")
-
-    chart2 = filtered_data.set_index("Month")[["Product Cost"]]
-
-    st.line_chart(chart2)
-
-    # Chart 3: Monthly Gross Profit Trend
-    st.subheader("Monthly Gross Profit Trend")
-
-    chart3 = filtered_data.set_index("Month")[["Gross Profit"]]
-
-    st.line_chart(chart3)
+    st.metric("Product Profit Margin", f"{total_margin:.2f}%")
 
     st.caption(
-        "January 2026 contains partial-month data and should not be "
-        "compared directly with complete months."
+        "Profit margin filtering uses each product's overall margin "
+        "across the available dataset. KPIs and charts reflect the "
+        "selected date range, category and margin filters."
     )
+
+    st.divider()
+
+    # Aggregate filtered data by month
+    if filtered_data.empty:
+        st.warning("No data available for the selected filters.")
+
+    else:
+        filtered_data["Month"] = (
+            filtered_data["ordered_at"]
+            .dt.to_period("M")
+            .dt.to_timestamp()
+        )
+
+        monthly_data = (
+            filtered_data.groupby("Month")
+            .agg(
+                **{
+                    "Product Revenue": ("product_revenue", "sum"),
+                    "Gross Profit": ("gross_profit", "sum"),
+                    "Product Cost": ("product_cost", "sum")
+                }
+            )
+            .sort_index()
+        )
+
+        # Chart 1
+        st.subheader("Monthly Product Revenue vs Gross Profit")
+
+        st.line_chart(
+            monthly_data[
+                ["Product Revenue", "Gross Profit"]
+            ]
+        )
+
+        # Chart 2
+        st.subheader("Monthly Product Cost Trend")
+
+        st.line_chart(
+            monthly_data[["Product Cost"]]
+        )
+
+        # Chart 3
+        st.subheader("Monthly Gross Profit Trend")
+
+        st.line_chart(
+            monthly_data[["Gross Profit"]]
+        )
+

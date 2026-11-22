@@ -231,6 +231,13 @@ streamlit run agents/streamlit_app.py
 - Automated data pipelines.
 - Advanced AI analytics and agentic workflows.
 
+
+ ## 📥 Download Power BI Dashboard
+
+Explore the complete interactive E-Commerce Customer Analytics dashboard using Power BI Desktop.
+
+[**⬇️ Download E-Commerce Customer Analytics Dashboard (.pbix)**](https://github.com/Ayush07-sys/E-Commerce-Customer-and-Analytics/blob/main/Ecommerce_Customer_Analytics.pbix)
+
 ## Author
 
 **Ayush Kumar**

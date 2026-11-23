@@ -2,7 +2,7 @@ import pandas as pd
 import streamlit as st
 from getpass import getpass
 
-from ai_business_analyst import (
+from agents.ai_business_analyst import (
     generate_sql,
     validate_sql,
     execute_sql,

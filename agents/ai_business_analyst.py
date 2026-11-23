@@ -69,7 +69,7 @@ allowed_columns = {
 
 allowed_functions = {
     "SUM", "AVG", "COUNT", "MIN", "MAX",
-    "ROUND", "COALESCE", "DATE_TRUNC"
+    "ROUND", "COALESCE", "DATE_TRUNC", "NULLIF"
 }
 
 
@@ -102,6 +102,11 @@ Rules:
    SUM(total_gross_profit) GROUP BY category.
 7. Use correct aggregation for business questions.
 8. Return SQL only. No explanations or reasoning.
+9. Include the aggregated metric in SELECT when ranking results.
+10. 10. When comparing gross profit margin across categories, calculate
+    (SUM(total_gross_profit) / NULLIF(SUM(total_revenue), 0)) * 100.
+    Do not use MAX(profit_margin_percentage) or AVG(profit_margin_percentage)
+    to calculate category-level gross profit margin.
 """
             },
             {
@@ -312,6 +317,10 @@ Rules:
 5. Be concise and professional.
 6. Do not show internal reasoning.
 7. If results are empty, clearly say no records were returned.
+8. Never infer causes such as pricing power, operational efficiency,
+   or product mix unless the query results directly support them.
+9. Always distinguish total gross profit from gross profit margin.
+   Only make claims supported by the SQL results.
 """
             },
             {

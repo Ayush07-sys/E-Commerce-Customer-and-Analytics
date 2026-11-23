@@ -15,11 +15,12 @@ st.caption("Interactive public portfolio demo | Python • SQL • dbt • Power
 
 
 # Navigation
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Executive Overview",
     "Product Performance",
     "Customer Analytics",
-    "Revenue & Financial Analytics"
+    "Revenue & Financial Analytics",
+    "AI Business Analyst"
 ])
 
 
@@ -38,7 +39,7 @@ with tab1:
     col1.metric("Total Customers", "20K")
     col2.metric("Total Orders", "97K")
     col3.metric("Total Order Revenue", "$63.46M")
-    col4.metric("Gross Gross Profit", "$29.60M")
+    col4.metric("Gross Profit", "$29.60M")
 
     st.divider()
 
@@ -392,5 +393,95 @@ with tab4:
 
         st.subheader("Monthly Gross Profit Trend")
         st.line_chart(monthly_data[["Gross Profit"]])
+
+# AI Business Analyst
+with tab5:
+    st.subheader("AI E-Commerce Business Analyst")
+
+    st.write(
+        "Ask business questions about customers, products, "
+        "revenue and profitability using a local AI model."
+    )
+
+    try:
+        import sys
+
+        project_root = Path(__file__).resolve().parent.parent
+
+        if str(project_root) not in sys.path:
+            sys.path.insert(0, str(project_root))
+
+        from agents.ai_business_analyst import (
+            generate_sql,
+            validate_sql,
+            execute_sql,
+            explain_results
+        )
+
+    except ImportError:
+        st.info(
+            "The AI Analyst is available in the local application "
+            "where Ollama and the required Python packages are installed."
+        )
+
+    else:
+        password = st.text_input(
+            "PostgreSQL ai_analyst password",
+            type="password",
+            key="ai_db_password"
+        )
+
+        question = st.text_area(
+            "Ask your business question",
+            placeholder="Which product category generates the highest gross profit?",
+            key="ai_business_question"
+        )
+
+        if st.button("Analyze", type="primary", key="ai_analyze"):
+
+            if not password or not question.strip():
+                st.warning(
+                    "Please enter your database password and business question."
+                )
+
+            else:
+                try:
+                    with st.spinner("Generating SQL using Qwen..."):
+                        generated_sql = generate_sql(question)
+
+                    st.subheader("1. Generated SQL")
+                    st.code(generated_sql, language="sql")
+
+                    with st.spinner("Validating SQL..."):
+                        validated_sql = validate_sql(generated_sql)
+
+                    st.success("SQL validation successful!")
+
+                    with st.spinner("Executing query in PostgreSQL..."):
+                        results = execute_sql(validated_sql, password)
+
+                    st.subheader("2. Database Results")
+
+                    if results:
+                        results_df = pd.DataFrame(results)
+                        st.dataframe(
+                            results_df,
+                            use_container_width=True
+                        )
+                    else:
+                        st.info("No records found.")
+
+                    with st.spinner("Generating business insights..."):
+                        answer = explain_results(
+                            question,
+                            validated_sql,
+                            results
+                        )
+
+                    st.subheader("3. AI Business Insights")
+                    st.markdown(answer)
+
+                except Exception as error:
+                    st.error(f"Application error: {error}")
 
 
